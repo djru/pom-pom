@@ -1,14 +1,100 @@
-body {
+html,
+body,
+#root,
+.App {
+  height: 100%;
   margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+.App.break {
+  color: #bcfdab;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+  background: #232323;
+  color: #ec6b6b;
+  font-family: Quicksand, Helvetica, sans-serif;
+  text-align: center;
+}
+
+.App {
+  margin: 0 auto;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+h1.header {
+  font-family: Anton;
+  font-size: 7em;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+h2.subHeader {
+  font-size: 1.7em;
+  font-weight: 400;
+  margin-top: -33px;
+}
+
+h1.time {
+  font-size: 6em;
+  margin-bottom: 0;
+  user-select: none;
+  cursor: pointer;
+}
+
+h1.time:active {
+  background: #1f1f1f;
+}
+
+h3.onBreakLabel {
+  margin-top: 0;
+}
+
+.cycleGroup {
+  margin-top: auto;
+}
+
+.cycleGroup button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1em;
+  outline: none;
+}
+
+.notifSettings {
+  position: fixed;
+  margin: 15px;
+  top: 0;
+  right: 0;
+  border-radius: 4px;
+}
+
+.notifSettings.expanded {
+  padding: 15px;
+  background: #ffffd3;
+  border: 1px solid black;
+}
+
+.settingsContainer {
+  display: none;
+}
+
+.expanded .settingsContainer {
+  display: block !important;
+}
+
+span.settingsHead {
+  cursor: pointer;
+}
+
+.expanded span.settingsHead {
+  display: none;
+}
+
+.bannerMsg {
+  background: #ffffe4;
+  padding: 30px 0;
+  color: black;
 }
