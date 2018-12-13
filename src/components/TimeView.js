@@ -1,5 +1,13 @@
 import React, { useContext } from 'react'
-import ctx from './ctx'
+import ctx from '../context/ctx'
+
+let format_time = (c, w, b) => {
+  let g = ((c - 1) % (w + b)) + 1
+  if (g > b) {
+    g = g - b
+  }
+  return Math.floor(g / 60) + ':' + (g % 60 < 10 ? '0' : '') + (g % 60)
+}
 
 let TimeView = props => {
   let c = useContext(ctx)
@@ -10,7 +18,7 @@ let TimeView = props => {
         c.setActive(!c.active)
         c.setBannerMsg('')
       }}>
-      {c.format_time(c.count)}
+      {format_time(c.count, c.workTime, c.breakTime)}
     </h1>
   )
 }

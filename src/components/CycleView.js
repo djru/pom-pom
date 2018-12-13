@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import ctx from './ctx'
+import ctx from '../context/ctx'
 
 let CycleView = props => {
   let c = useContext(ctx)
-  let currentCycleNum = Math.ceil(c.count / c.cycleTime)
+  let currentCycleNum = Math.ceil(c.count / (c.workTime + c.breakTime))
   return (
     <h2 className="cycleGroup">
       <button

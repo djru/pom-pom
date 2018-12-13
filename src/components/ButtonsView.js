@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import ctx from './ctx'
+import ctx from '../context/ctx'
 
 let ButtonsView = props => {
   let c = useContext(ctx)

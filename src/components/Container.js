@@ -5,16 +5,24 @@ import CycleView from './CycleView'
 import OnBreakLabel from './OnBreakLabel'
 import NotifSettings from './NotifSettings'
 
-import { Provider } from './ctx'
+import { Provider } from '../context/ctx'
+import ClickableCorner from './ClickableCorner'
 
 let Container = props => {
+  // set the state vars
   let [active, setActive] = useState(false)
   let [timer, setTimer] = useState(null)
   let [bannerMessage, setBannerMessage] = useState(null)
-  let [showNotifs, setShowNotifs] = useState(true)
-  let cycleTime = 20 * 60
-  let breakTime = 5 * 60
-  let [count, setCount] = useState(cycleTime * 4)
+  let [showNotifs, setShowNotifs] = useState(
+    window.localStorage.getItem('showNotifs') === 'true',
+  )
+  let [workTime, setWorkTime] = useState(
+    parseInt(window.localStorage.getItem('workTime')) || 25 * 60,
+  )
+  let [breakTime, setBreakTime] = useState(
+    parseInt(window.localStorage.getItem('breakTime')) || 5 * 60,
+  )
+  let [count, setCount] = useState((workTime + breakTime) * 4)
   let [bannerMsg, setBannerMsg] = useState('')
 
   // when the active state changes, create or destroy the interval timer
@@ -32,6 +40,16 @@ let Container = props => {
     },
     [active],
   )
+  // we want this state to save to localstorage
+  useEffect(
+    () => {
+      console.log('writing to localstorage', workTime, breakTime, showNotifs)
+      window.localStorage.setItem('workTime', workTime)
+      window.localStorage.setItem('breakTime', breakTime)
+      window.localStorage.setItem('showNotifs', showNotifs)
+    },
+    [showNotifs, workTime, breakTime],
+  )
 
   // when the count hits 0, decrement the cycle and reset the count
   // if we're at 3 seconds, show notificaiton to start break
@@ -41,10 +59,10 @@ let Container = props => {
         if (count <= breakTime) {
           new Notification("You're all done! Congrats!")
           setBannerMsg('You finished all your cycles!')
-          reset(cycleTime)
-        } else if (count % cycleTime === breakTime) {
+          reset(workTime + breakTime)
+        } else if (count % (workTime + breakTime) === breakTime) {
           new Notification('Time for your break!')
-        } else if (count % cycleTime === 0) {
+        } else if (count % (workTime + breakTime) === 0) {
           new Notification('Time to get back to work!')
         }
       }
@@ -64,17 +82,10 @@ let Container = props => {
     setCount(t * 4)
   }
 
-  let format_time = c => {
-    c = ((c - 1) % cycleTime) + 1
-    if (c > breakTime) {
-      c = c - breakTime
-    }
-    return Math.floor(c / 60) + ':' + (c % 60 < 10 ? '0' : '') + (c % 60)
-  }
-
   let set_cycle_number_to = e => {
     if (parseInt(e) % 1 === 0 && parseInt(e) > 0) {
-      setCount(((count - 1) % cycleTime) + 1 + (parseInt(e) - 1) * cycleTime)
+      let g = ((count - 1) % (workTime + breakTime)) + 1
+      setCount(g + (parseInt(e) - 1) * (workTime + breakTime))
     }
   }
 
@@ -87,15 +98,17 @@ let Container = props => {
         setCount,
         setActive,
         setTimer,
-        format_time,
         set_cycle_number_to,
         bannerMessage,
         setBannerMessage,
         showNotifs,
         setShowNotifs,
-        cycleTime,
+        workTime,
+        setWorkTime,
         breakTime,
+        setBreakTime,
         setBannerMsg,
+        reset,
       }}>
       <div
         className="bannerMsg"
@@ -104,13 +117,15 @@ let Container = props => {
       </div>
       <div
         className={
-          'App ' + (((count - 1) % cycleTime) + 1 <= breakTime ? 'break' : '')
+          'App ' +
+          (((count - 1) % (workTime + breakTime)) + 1 <= breakTime
+            ? 'break'
+            : '')
         }>
         <div className="headerGroup">
           <h1 className="header">PomPom</h1>
           <h2 className="subHeader">The Simple Pomodoro Timer</h2>
         </div>
-
         <div className="timeGroup">
           <TimeView />
           <OnBreakLabel />
@@ -118,8 +133,19 @@ let Container = props => {
         <div className="cycleGroup">
           <CycleView />
         </div>
+        <NotifSettings />
+        <ClickableCorner corner="top left" headerText={'What is Pomodoro?'}>
+          <p>
+            <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">
+              The Pomodoro Technique
+            </a>{' '}
+            is a time management method developed by Francesco Cirillo. The
+            technique uses a timer to break down work into intervals,
+            traditionally 25 minutes in length, separated by short breaks. These
+            intervals are named pomodoros.
+          </p>
+        </ClickableCorner>
       </div>
-      <NotifSettings />
     </Provider>
   )
 }

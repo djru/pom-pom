@@ -38,9 +38,11 @@ h2.subHeader {
 
 h1.time {
   font-size: 6em;
-  margin-bottom: 0;
+  margin: 0;
   user-select: none;
   cursor: pointer;
+  font-weight: 300;
+  font-size: 15em;
 }
 
 h1.time:active {
@@ -63,25 +65,55 @@ h3.onBreakLabel {
   outline: none;
 }
 
-.notifSettings {
+.corner {
   position: fixed;
   margin: 15px;
-  top: 0;
-  right: 0;
   border-radius: 4px;
+  cursor: pointer;
+  max-width: 300px;
+  z-index: 1;
 }
 
-.notifSettings.expanded {
-  padding: 15px;
-  background: #ffffd3;
-  border: 1px solid black;
-}
-
-.settingsContainer {
+.corner > * {
   display: none;
 }
 
-.expanded .settingsContainer {
+.corner.expanded {
+  padding: 15px;
+  background: #ffffd3;
+  border: 1px solid #ffffed;
+  box-shadow: -3px 4px 20px 7px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  color: black !important;
+}
+
+.corner.expanded > * {
+  display: inherit;
+}
+
+.cornerHeader {
+  display: block !important;
+}
+
+.corner.expanded .cornerHeader {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.top {
+  top: 0;
+}
+.bottom {
+  bottom: 0;
+}
+.left {
+  left: 0;
+}
+.right {
+  right: 0;
+}
+
+.expanded .corner {
   display: block !important;
 }
 
@@ -97,4 +129,25 @@ span.settingsHead {
   background: #ffffe4;
   padding: 30px 0;
   color: black;
+}
+
+label {
+  float: left;
+}
+
+input[type='number'] {
+  width: 5em;
+  margin-left: 40px;
+}
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 812px) {
+  .time {
+    font-size: 8em !important;
+  }
+  .headerGroup {
+    font-size: 0.7em;
+  }
+  h2.subHeader {
+    margin-top: -18px;
+  }
 }
