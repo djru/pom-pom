@@ -113,7 +113,7 @@ h3.onBreakLabel {
   right: 0;
 }
 
-.expanded .corner {
+.expanded.corner {
   display: block !important;
 }
 
