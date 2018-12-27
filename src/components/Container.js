@@ -55,7 +55,7 @@ let Container = props => {
   // if we're at 3 seconds, show notificaiton to start break
   useEffect(
     () => {
-      if (showNotifs && active) {
+      if (showNotifs && active && 'Notification' in window) {
         if (count <= breakTime) {
           new Notification("You're all done! Congrats!")
           setBannerMsg('You finished all your cycles!')

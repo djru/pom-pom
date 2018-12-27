@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import './styles/index.css'
 import Container from './components/Container'
 
-if (Notification.permission !== 'granted') {
+if ('Notification' in window && Notification.permission !== 'granted') {
   Notification.requestPermission()
 }
 
