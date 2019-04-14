@@ -10,7 +10,6 @@ body,
 }
 
 body {
-  background: #232323;
   color: #ec6b6b;
   font-family: Quicksand, Helvetica, sans-serif;
   text-align: center;
@@ -46,7 +45,7 @@ h1.time {
 }
 
 h1.time:active {
-  background: #1f1f1f;
+  background: #eee;
 }
 
 h3.onBreakLabel {
